@@ -1,6 +1,7 @@
 import React, { useState } from "react";
+import MovieCard from "./cardComponent"
 
-export default function SearchMovies() {
+function SearchMovies(props) {
 	//states- input querry, movies
 	const [query, setQuery] = useState("");
 	const [movies, setMovies] = useState([]);
@@ -38,28 +39,15 @@ export default function SearchMovies() {
 					</button>
 				</div>
 			</form>
-			<div >
+			<div>
 				{movies
 					.filter((movie) => movie.poster_path)
 					.map((movie) => (
-						<div key={movie.id} className="card">
-							<img
-								src={`https://image.tmdb.org/t/p/w185_and_h278_bestv2/${movie.poster_path}`}
-								alt={movie.title + "poster"}
-							/>
-							<div className='card-body'>
-								<h3 className='card-title'>{movie.title}</h3>
-								<p className='card-text'>
-									<small>RELEASE DATE: {movie.release_date}</small>
-								</p>
-								<p className='card-text'>
-									<small>RATING: {movie.vote_average}</small>
-								</p>
-								<p className='card-text'>{movie.overview}</p>
-							</div>
-						</div>
+						<MovieCard movie={movie} key={movie.id}/>
 					))}
 			</div>
 		</>
 	);
 }
+
+export default SearchMovies
