@@ -9,12 +9,19 @@ html {
 body {
   margin: 0;
   padding: 0;
-  background-color: rgb(244,244,244);
-  color: #333;
+  background:linear-gradient(45deg,#0d253f,#01b4e4,#90cea1);
+  background-repeat: no-repeat;
+  width: 100%;
+  min-height:100vh;
+  background-size: cover; 
 }
-
+h1{
+  color:linear-gradient(45deg,#0d253f,#01b4e4,#90cea1);
+  border-radius: 50px;
+}
 p {
   font-size: 1.6rem;
+  text-align: justify;
 }
 
 small {
@@ -25,6 +32,10 @@ small {
   margin: 0 auto;
   max-width:1000px;
   padding: 40px;
+}
+
+.button{
+  margin: 5px;
 }
 
 .title {
@@ -51,18 +62,6 @@ small {
   margin-bottom: 1rem;
 }
 
-.button {
-  padding: 1rem 2rem;
-  border: 1px solid rgba(0,0,0,0.75);
-  border-radius: 20px;
-  font-size: 1.4rem;
-  cursor: pointer;
-  transition: background-color 250ms;
-}
-
-.button:hover {
-  background-color: rgba(0,0,0,0.85);
-}
 
 @media (min-width:786px){
   .form {
