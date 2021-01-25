@@ -4,7 +4,8 @@ import movieTrailer from "movie-trailer";
 import Jumbotron from "reactstrap/lib/Jumbotron";
 function MovieCard({ movie }) {
 	const [trailerUrl, setTrailerUrl] = useState("");
-
+	const [casts, setCast] = useState([]);
+	const [crews, setCrew] = useState([]);
 	const opts = {
 		height: "390",
 		width: "100%",
@@ -13,7 +14,6 @@ function MovieCard({ movie }) {
 			autoplay: 1,
 		},
 	};
-
 	const handleClick = (movie) => {
 		if (trailerUrl) {
 			setTrailerUrl("");
@@ -25,6 +25,18 @@ function MovieCard({ movie }) {
 				})
 				.catch((error) => console.log(error));
 		}
+	};
+	const handleCredits = (id) => {
+		const url = `https://api.themoviedb.org/3/movie/${id}/credits?api_key=cdd3c5ce5ede207e5ca373b35395541c&language=en-US`;
+		fetch(url)
+			.then((response) => {
+				return response.json();
+			})
+			.then((data) => {
+				console.log(data.crew);
+				setCast(data.cast);
+				setCrew(data.crew);
+			});
 	};
 
 	return (
@@ -56,12 +68,45 @@ function MovieCard({ movie }) {
 										onClick={() => handleClick(movie)}>
 										Watch Trailer
 									</button>
-									<button className='btn button btn-primary'>Credits</button>
+									<button
+										className='btn button btn-primary'
+										onClick={() => {
+											handleCredits(movie.id);
+										}}>
+										Credits
+									</button>
 								</div>
 							</div>
 							<p className='card-text'>{movie.overview}</p>
 						</div>
 					</div>
+				</div>
+				<div id='people'>
+					<table className='table'>
+						<thead>
+							<tr>
+								<th scope='col'></th>
+								<th scope='col'></th>
+								<th scope='col'></th>
+							</tr>
+						</thead>
+						<tbody>
+							{casts.slice(0, 10).map((actor) => (
+								<tr key={actor.id}>
+									<td>{actor.name}</td>
+									<td>{actor.character}</td>
+									<td>{actor.known_for_department}</td>
+								</tr>
+							))}
+							{/* {crews.map((person) => {
+								<tr key={person.id}>
+									<td>{person.name}</td>
+									<td>{person.known_for_department}</td>
+									<td>{person.job}</td>
+								</tr>;
+							})} */}
+						</tbody>
+					</table>
 				</div>
 				<div style={{ padding: "40px" }}>
 					{trailerUrl && <YouTube videoId={trailerUrl} opts={opts} />}

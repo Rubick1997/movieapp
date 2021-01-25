@@ -3,24 +3,35 @@ import MovieCard from "./cardComponent";
 import Header from "./HeaderComponent";
 import ReactDOM from "react-dom";
 
-function SearchMovies(props) {
+function SearchMovies() {
 	//states- input querry, movies
 	const [query, setQuery] = useState("");
 	const [movies, setMovies] = useState([]);
-	const list = [];
-	const searchMovie = async (e) => {
-		e.preventDefault();
-		const url = `https://api.themoviedb.org/3/search/movie?api_key=cdd3c5ce5ede207e5ca373b35395541c&language=en-US&query=%24%7B${query}%7D&page=1&include_adult=false`;
 
-		try {
-			const res = await fetch(url);
-			const data = await res.json();
-			setMovies(data.results);
-			const message = <h2>Results:</h2>;
-			ReactDOM.render(message, document.getElementById("message"));
-		} catch (err) {
-			console.log(err);
-		}
+	const url = `https://api.themoviedb.org/3/search/movie?api_key=cdd3c5ce5ede207e5ca373b35395541c&language=en-US&query=%24%7B${query}%7D&page=1&include_adult=false`;
+
+	const searchMovie = (e) => {
+		e.preventDefault();
+		let info;
+
+		fetch(url)
+			.then((response) => {
+				return response.json();
+			})
+			.then((data) => {
+				setMovies(data.results);
+				info = data.results;
+				console.log(info)
+				return info;
+			})
+			.then((info) => {
+				if (info.length === 0) {
+					alert("Not Found or Input Field is Empty!");
+				}
+			})
+			.catch((error) => {
+				console.log(error);
+			});
 	};
 
 	return (
@@ -45,7 +56,6 @@ function SearchMovies(props) {
 					</button>
 				</div>
 			</form>
-			<div id='message'></div>
 			{movies
 				.filter((movie) => movie.poster_path)
 				.map((movie) => (
