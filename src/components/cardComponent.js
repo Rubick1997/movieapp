@@ -6,6 +6,12 @@ function MovieCard({ movie }) {
 	const [trailerUrl, setTrailerUrl] = useState("");
 	const [casts, setCast] = useState([]);
 	const [crews, setCrew] = useState([]);
+	const [isHidden, setIsHidd] = useState(false);
+
+	const handleHidden = () => {
+		setIsHidd((prevState) => !prevState);
+	};
+
 	const opts = {
 		height: "390",
 		width: "100%",
@@ -33,10 +39,19 @@ function MovieCard({ movie }) {
 				return response.json();
 			})
 			.then((data) => {
-				console.log(data.crew);
 				setCast(data.cast);
 				setCrew(data.crew);
-			});
+				return data;
+			})
+			.then((data) => {
+				const crew = data.crew;
+				const cast = data.cast;
+				if (crew.length === 0 && cast.length === 0) {
+					handleHidden();
+					alert("No credits found");
+				}
+			})
+			.catch((error) => console.log(error));
 	};
 
 	return (
@@ -72,6 +87,7 @@ function MovieCard({ movie }) {
 										className='btn button btn-primary'
 										onClick={() => {
 											handleCredits(movie.id);
+											handleHidden();
 										}}>
 										Credits
 									</button>
@@ -81,33 +97,39 @@ function MovieCard({ movie }) {
 						</div>
 					</div>
 				</div>
-				<div id='people'>
-					<table className='table'>
-						<thead>
-							<tr>
-								<th scope='col'></th>
-								<th scope='col'></th>
-								<th scope='col'></th>
-							</tr>
-						</thead>
-						<tbody>
-							{casts.slice(0, 10).map((actor) => (
-								<tr key={actor.id}>
-									<td>{actor.name}</td>
-									<td>{actor.character}</td>
-									<td>{actor.known_for_department}</td>
+				{isHidden && (
+					<div>
+						<table className='table'>
+							<thead>
+								<tr>
+									<th scope='col'>Name</th>
+									<th scope='col'>Character</th>
+									<th scope='col'>Job</th>
 								</tr>
-							))}
-							{/* {crews.map((person) => {
-								<tr key={person.id}>
-									<td>{person.name}</td>
-									<td>{person.known_for_department}</td>
-									<td>{person.job}</td>
-								</tr>;
-							})} */}
-						</tbody>
-					</table>
-				</div>
+							</thead>
+							<tbody>
+								{casts.slice(0, 10).map((actor) => (
+									<tr key={actor.id}>
+										<td>{actor.name}</td>
+										<td>{actor.character}</td>
+										<td>Actor</td>
+									</tr>
+								))}
+								{crews
+									.filter(function (person) {
+										return person.job === "Director";
+									})
+									.map((person) => (
+										<tr key={person.id}>
+											<td>{person.name}</td>
+											<td></td>
+											<td>{person.job}</td>
+										</tr>
+									))}
+							</tbody>
+						</table>
+					</div>
+				)}
 				<div style={{ padding: "40px" }}>
 					{trailerUrl && <YouTube videoId={trailerUrl} opts={opts} />}
 				</div>

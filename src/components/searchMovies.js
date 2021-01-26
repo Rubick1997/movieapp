@@ -21,7 +21,6 @@ function SearchMovies() {
 			.then((data) => {
 				setMovies(data.results);
 				info = data.results;
-				console.log(info)
 				return info;
 			})
 			.then((info) => {
