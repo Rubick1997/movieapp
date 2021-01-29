@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import MovieCard from "./cardComponent";
 import Header from "./HeaderComponent";
+import { Form, FormGroup, Label, Input, Button } from "reactstrap";
 
 function SearchMovies() {
 	//states- input querry, movies
@@ -35,12 +36,12 @@ function SearchMovies() {
 	return (
 		<React.Fragment>
 			<Header />
-			<form onSubmit={searchMovie}>
-				<div className='form form-group'>
-					<label htmlFor='query' className='label'>
+			<Form onSubmit={searchMovie}>
+				<FormGroup className='form'>
+					<Label htmlFor='query' className='label'>
 						Movie Name
-					</label>
-					<input
+					</Label>
+					<Input
 						className='input form-control form-group'
 						type='text'
 						name='query'
@@ -49,11 +50,11 @@ function SearchMovies() {
 						value={query}
 						onChange={(e) => setQuery(e.target.value)}
 					/>
-					<button className='btn btn-secondary form-group' type='submit'>
+					<Button className='btn form-group' type='submit'>
 						Search
-					</button>
-				</div>
-			</form>
+					</Button>
+				</FormGroup>
+			</Form>
 			{movies
 				.filter((movie) => movie.poster_path)
 				.map((movie) => (

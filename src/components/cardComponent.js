@@ -1,7 +1,16 @@
 import React, { useState } from "react";
 import YouTube from "react-youtube";
 import movieTrailer from "movie-trailer";
-import Jumbotron from "reactstrap/lib/Jumbotron";
+import {
+	Row,
+	Col,
+	Jumbotron,
+	Button,
+	Card,
+	CardBody,
+	CardTitle,
+	CardText,
+} from "reactstrap";
 import Credits from "./creditComponent";
 function MovieCard({ movie }) {
 	const [trailerUrl, setTrailerUrl] = useState("");
@@ -53,53 +62,65 @@ function MovieCard({ movie }) {
 	};
 
 	return (
-		<div className='row'>
-			<Jumbotron key={movie.id} className='card'>
-				<div className='card-body'>
-					<div className='row'>
-						<div className='col'>
-							<img
-								id='poster'
-								src={`https://image.tmdb.org/t/p/w185_and_h278_bestv2/${movie.poster_path}`}
-								alt={movie.title + "poster"}
-							/>
-						</div>
-						<div className='col'>
-							<h3 className='card-title'>{movie.title}</h3>
-							<p className='card-text'>
-								<small>RELEASE DATE: {movie.release_date}</small>
-							</p>
-							<div className='row'>
-								<div className='col-6'>
-									<p className='card-text'>
-										<small>RATING: {movie.vote_average}</small>
+		<Row>
+			<Jumbotron key={movie.id}>
+				<Card>
+					<CardBody>
+						<Row>
+							<Col>
+								<img
+									id='poster'
+									src={`https://image.tmdb.org/t/p/w185_and_h278_bestv2/${movie.poster_path}`}
+									alt={movie.title + "poster"}
+								/>
+							</Col>
+							<Col>
+								<CardTitle>
+									<h3>{movie.title}</h3>
+								</CardTitle>
+								<CardText>
+									<p>
+										<small>RELEASE DATE: {movie.release_date}</small>
 									</p>
-								</div>
-								<div className='col-6'>
-									<button
-										className='btn btn-primary button '
-										onClick={() => handleClick(movie)}>
-										Watch Trailer
-									</button>
-									<button
-										className='btn button btn-primary'
-										onClick={() => {
-											handleCredits(movie.id);
-										}}>
-										Credits
-									</button>
-								</div>
-							</div>
-							<p className='card-text'>{movie.overview}</p>
-						</div>
+								</CardText>
+								<Row>
+									<Col xs='6'>
+										<CardText>
+											<p>
+												<small>RATING: {movie.vote_average}</small>
+											</p>
+										</CardText>
+									</Col>
+									<Col xs='6'>
+										<Button
+											color='primary'
+											className='btn button'
+											onClick={() => handleClick(movie)}>
+											Watch Trailer
+										</Button>
+										<Button
+											color='primary'
+											className='btn button'
+											onClick={() => {
+												handleCredits(movie.id);
+											}}>
+											Credits
+										</Button>
+									</Col>
+								</Row>
+								<CardText>
+									<p>{movie.overview}</p>
+								</CardText>
+							</Col>
+						</Row>
+					</CardBody>
+					{isHidden && <Credits casts={casts} crews={crews} />}
+					<div style={{ padding: "40px" }}>
+						{trailerUrl && <YouTube videoId={trailerUrl} opts={opts} />}
 					</div>
-				</div>
-				{isHidden && <Credits casts={casts} crews={crews} />}
-				<div style={{ padding: "40px" }}>
-					{trailerUrl && <YouTube videoId={trailerUrl} opts={opts} />}
-				</div>
+				</Card>
 			</Jumbotron>
-		</div>
+		</Row>
 	);
 }
 

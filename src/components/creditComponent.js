@@ -1,8 +1,9 @@
 import React from "react";
+import { Container } from "reactstrap";
 
 function Credits({ casts, crews }) {
 	return (
-		<div className='container'>
+		<Container>
 			{crews
 				.filter(function (person) {
 					return person.job === "Director";
@@ -43,8 +44,7 @@ function Credits({ casts, crews }) {
 						</div>
 					</div>
 				))}
-		</div>
+		</Container>
 	);
 }
-
 export default Credits;

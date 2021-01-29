@@ -1,5 +1,5 @@
 import React from "react";
-import { Navbar, Button } from "reactstrap";
+import { Navbar, Button,Row,Col,Container } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
 	faFilm,
@@ -21,15 +21,15 @@ function Header() {
 					</ul>
 				</span>
 			</Navbar>
-			<div className='container'>
-				<div className='row'>
-					<div className='col'>
+			<Container>
+				<Row>
+					<Col>
 						<h1 className='title'>
 							Movie search <FontAwesomeIcon icon={faFilm} />
 						</h1>
-					</div>
-				</div>
-			</div>
+					</Col>
+				</Row>
+			</Container>
 		</React.Fragment>
 	);
 }
