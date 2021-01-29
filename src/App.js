@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 import "./App.css";
-import SearchMovies from "./components/searchMovies";
+import Search from "./components/searchMovies";
 
 class App extends Component {
 	render() {
 		return (
 			<div className='container'>
-				<SearchMovies/>
+				<Search/>
 			</div>
 		);
 	}

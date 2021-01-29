@@ -25,7 +25,7 @@ function Header() {
 				<Row>
 					<Col>
 						<h1 className='title'>
-							Movie search <FontAwesomeIcon icon={faFilm} />
+							Movie App <FontAwesomeIcon icon={faFilm} />
 						</h1>
 					</Col>
 				</Row>

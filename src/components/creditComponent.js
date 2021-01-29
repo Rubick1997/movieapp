@@ -7,7 +7,7 @@ function Credits({ casts, crews }) {
 			{crews
 				.filter(function (person) {
 					return person.job === "Director";
-				})
+				}).slice(0,1)
 				.map((person) => (
 					<div className='row'>
 						<table className='col'>

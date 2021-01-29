@@ -63,8 +63,8 @@ function MovieCard({ movie }) {
 
 	return (
 		<Row>
-			<Jumbotron key={movie.id}>
-				<Card>
+			<Jumbotron>
+				<Card key={movie.id}>
 					<CardBody>
 						<Row>
 							<Col>

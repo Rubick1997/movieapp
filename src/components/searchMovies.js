@@ -1,20 +1,22 @@
 import React, { useState } from "react";
-import MovieCard from "./cardComponent";
+import MovieCard from "./movieComponent";
 import Header from "./HeaderComponent";
+import ShowCard from "./showComponent";
 import { Form, FormGroup, Label, Input, Button } from "reactstrap";
 
-function SearchMovies() {
+function Search() {
 	//states- input querry, movies
 	const [query, setQuery] = useState("");
 	const [movies, setMovies] = useState([]);
+	const [tvShows, setTVShow] = useState([]);
 
-	const url = `https://api.themoviedb.org/3/search/movie?api_key=cdd3c5ce5ede207e5ca373b35395541c&language=en-US&query=%24%7B${query}%7D&page=1&include_adult=false`;
-
+	const urlMovies = `https://api.themoviedb.org/3/search/movie?api_key=cdd3c5ce5ede207e5ca373b35395541c&language=en-US&query=%24%7B${query}%7D&page=1&include_adult=false`;
+	const urlShows = `https://api.themoviedb.org/3/search/tv?api_key=cdd3c5ce5ede207e5ca373b35395541c&language=en-US&page=1&query=${query}&include_adult=false`;
 	const searchMovie = (e) => {
 		e.preventDefault();
 		let info;
 
-		fetch(url)
+		fetch(urlMovies)
 			.then((response) => {
 				return response.json();
 			})
@@ -27,6 +29,18 @@ function SearchMovies() {
 				if (info.length === 0) {
 					alert("Not Found or Input Field is Empty!");
 				}
+			})
+			.catch((error) => {
+				console.log(error);
+			});
+
+		fetch(urlShows)
+			.then((response) => {
+				return response.json();
+			})
+			.then((data) => {
+				setTVShow(data.results);
+				console.log(data.results);
 			})
 			.catch((error) => {
 				console.log(error);
@@ -60,8 +74,13 @@ function SearchMovies() {
 				.map((movie) => (
 					<MovieCard movie={movie} key={movie.id} />
 				))}
+			{tvShows
+				.filter((tvShow) => tvShow.backdrop_path)
+				.map((tvShow) => (
+					<ShowCard tvShow={tvShow} key={tvShow.id} />
+				))}
 		</React.Fragment>
 	);
 }
 
-export default SearchMovies;
+export default Search;
